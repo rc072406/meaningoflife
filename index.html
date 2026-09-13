@@ -3,178 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Meaning of Life - Map</title>
+    <title>The Meaning of Life - Static Map</title>
     
-  
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Reenie+Beanie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,800;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
 
     <style>
-        /* Base Setup */
-        body, html {
+       
+        body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #f4f4f4; 
+            padding: 40px 20px;
+            background-color: #f0ece1; 
+            display: flex;
+            justify-content: center;
         }
 
-      
-        #connections-canvas {
+    
+        .board {
+            position: relative;
+            width: 1200px;
+            height: 1100px;
+            background: #fdfbf7;
+            border-radius: 12px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* The Strings (SVG Lines) */
+        .strings {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none; /* Lets you click through the lines to the background */
         }
-
-        /* The lines connecting the notes */
-        .connection-line {
-            stroke: #333;
-            stroke-width: 2;
-            stroke-dasharray: 5, 5; /* Creates a dashed line */
+        .strings line {
+            stroke: #a8a397;
+            stroke-width: 2.5;
+            stroke-dasharray: 6, 6;
         }
 
         /* --- THE STICKY NOTES (Reenie Beanie) --- */
         .sticky-note {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: #feff9c; /* Classic sticky note yellow */
-            box-shadow: 3px 5px 15px rgba(0,0,0,0.2);
+            width: 220px;
+            height: 220px;
+            background: #feff9c;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
             padding: 20px;
             box-sizing: border-box;
             z-index: 2;
-            cursor: grab;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            
-            /* Font styling */
             font-family: 'Reenie Beanie', cursive;
             font-size: 28px;
-            line-height: 1.2;
+            line-height: 1.1;
             color: #111;
-
-            /* Slight rotation for realism */
-            transform: rotate(-2deg);
-            transition: transform 0.1s;
         }
 
-        .sticky-note:nth-child(even) {
-            transform: rotate(3deg);
-            background: #ffcbf2; /* Pink note for variety */
-        }
-
-        .sticky-note:active {
-            cursor: grabbing;
-            transform: scale(1.05); /* Pops up slightly when dragged */
-            z-index: 10;
+        /* Color Variations & Rotations for Stickies */
+        .sticky-note.pink { background: #ffcbf2; transform: rotate(3deg); }
+        .sticky-note.blue { background: #bdf2ff; transform: rotate(-2deg); }
+        .sticky-note.green { background: #d7ffc4; transform: rotate(1deg); }
+        .sticky-note.orange { background: #ffe4b5; transform: rotate(-3deg); }
+        .sticky-note.center {
+            background: #ff6b6b;
+            color: white;
+            transform: rotate(0deg) scale(1.1);
+            font-size: 34px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            z-index: 3; /* Keep center on top */
         }
 
         /* --- THE EXPLANATIONS (Inter) --- */
         .explanation {
             position: absolute;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px 15px;
-            max-width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            border-left: 4px solid #333;
+            padding: 15px 20px;
+            width: 280px;
             z-index: 3;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            
-            /* Font styling */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             font-family: 'Inter', sans-serif;
             font-size: 14px;
-            line-height: 1.5;
-            color: #444;
+            line-height: 1.6;
+            color: #222;
+        }
+        .explanation strong {
+            display: block;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* --- BOTTOM STICKY & HEART --- */
+        .finale-note {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1deg);
+            background: #fff;
+            border: 1px solid #ddd;
+            width: 320px;
+            height: auto;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 36px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .heart-icon {
+            width: 35px;
+            height: 35px;
+            fill: #ff4757;
         }
     </style>
 </head>
 <body>
 
-    <!-- SVG for Drawing Lines -->
-    <svg id="connections-canvas">
-        <line id="line1" class="connection-line" x1="0" y1="0" x2="0" y2="0" />
-    </svg>
+    <div class="board">
 
-    <!-- Sticky Notes -->
-    <div class="sticky-note" id="node1" style="top: 100px; left: 150px;">
-        Music Theory & Chemistry
+        <!-- SVG Strings Connecting the Nodes to the Center (Center is at 600, 500) -->
+        <svg class="strings">
+            <!-- To Top Left (History) -->
+            <line x1="600" y1="500" x2="250" y2="200" />
+            <!-- To Mid Left (Psychology) -->
+            <line x1="600" y1="500" x2="180" y2="480" />
+            <!-- To Bottom Left (Chemistry/Physics) -->
+            <line x1="600" y1="500" x2="280" y2="760" />
+            <!-- To Top Right (Lit/Art) -->
+            <line x1="600" y1="500" x2="950" y2="200" />
+            <!-- To Mid Right (Music Theory) -->
+            <line x1="600" y1="500" x2="1020" y2="480" />
+            <!-- To Bottom Right (Math/Stats/Coding) -->
+            <line x1="600" y1="500" x2="920" y2="760" />
+        </svg>
+
+        <!-- ================= STICKY NOTES (The Disciplines) ================= -->
+        
+        <div class="sticky-note center" style="top: 390px; left: 490px;">
+            INTERTEXTUALITY<br>
+            <span style="font-size: 20px;">There is only one story.</span>
+        </div>
+
+        <div class="sticky-note pink" style="top: 90px; left: 140px;">
+            History<br>
+            <span style="font-size: 20px;">Connections & changes over time. (Why?)</span>
+        </div>
+
+        <div class="sticky-note blue" style="top: 370px; left: 70px;">
+            Psychology,<br>Sociology & Philosophy<br>
+            <span style="font-size: 20px;">Human behavior & evolutionary traits.</span>
+        </div>
+
+        <div class="sticky-note green" style="top: 650px; left: 170px;">
+            Chemistry & Physics<br>
+            <span style="font-size: 20px;">Neurochemicals, neuropeptides & the rules of reality.</span>
+        </div>
+
+        <div class="sticky-note orange" style="top: 90px; left: 840px;">
+            Literature, Poetry & Art<br>
+            <span style="font-size: 20px;">Documenting the human experience.</span>
+        </div>
+
+        <div class="sticky-note blue" style="top: 370px; left: 910px;">
+            Music Theory<br>
+            <span style="font-size: 20px;">The architecture of sound.</span>
+        </div>
+
+        <div class="sticky-note pink" style="top: 650px; left: 810px;">
+            Mathematics,<br>Statistics & Coding<br>
+            <span style="font-size: 20px;">Infinity. Gathering evidence. Innovation!</span>
+        </div>
+
+
+        <!-- ================= EXPLANATIONS (The Connections in Inter font) ================= -->
+
+        <div class="explanation" style="top: 40px; left: 450px; width: 300px; text-align: center; border-left: none; border-top: 4px solid #333;">
+            <strong>The Cycle</strong>
+            After we answer a question, we create new ones. What do you choose? What question do you have? You can make history. The cycle repeats itself.
+        </div>
+
+        <div class="explanation" style="top: 220px; left: 380px; width: 440px; text-align: center; border-left: none; border-bottom: 4px solid #333;">
+            <strong>Forms of Storytelling</strong>
+            All of these are forms of storytelling. Calculus tells the story of moving phenomena just as poetry tells the story of despair or elation.
+        </div>
+
+        <div class="explanation" style="top: 480px; left: 240px; width: 220px;">
+            <strong>Seeking Patterns</strong>
+            We are naturally seekers of patterns. The chain of human existence runs straight from history down to neurochemicals and physics.
+        </div>
+
+        <div class="explanation" style="top: 600px; left: 730px;">
+            <strong>Language & Logic</strong>
+            Like how Dickens stole from Dante, there is no difference between figuring out a double negative in a sentence and a double negative in an equation.
+        </div>
+
+        <div class="explanation" style="top: 800px; left: 460px;">
+            <strong>Music & Science</strong>
+            Detecting a pedal note that makes a beautiful song is intellectually identical to a chemist detecting a property in a molecule that dictates its behavior.
+        </div>
+
+
+        <!-- ================= FINALE NOTE ================= -->
+        
+        <div class="finale-note">
+            What was I made for?<br>
+            Anything and Everything.
+            <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+
     </div>
-
-    <div class="sticky-note" id="node2" style="top: 300px; left: 550px;">
-        Mathematics & Language
-    </div>
-
-    <!-- Explanation Box placed between them -->
-    <div class="explanation" style="top: 220px; left: 330px;">
-        <strong>The Pattern:</strong> Detecting a pedal note in a song is the same as detecting a behavioral property in a molecule. Double negatives function the exact same way in English and Algebra.
-    </div>
-
-    <script>
-        // Simple Drag and Drop Logic
-        const notes = document.querySelectorAll('.sticky-note');
-        let activeNote = null;
-        let offsetX = 0;
-        let offsetY = 0;
-
-        notes.forEach(note => {
-            note.addEventListener('mousedown', (e) => {
-                activeNote = note;
-                offsetX = e.clientX - note.getBoundingClientRect().left;
-                offsetY = e.clientY - note.getBoundingClientRect().top;
-                note.style.zIndex = 100; // Bring to front
-            });
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!activeNote) return;
-            
-            // Move the note
-            activeNote.style.left = (e.clientX - offsetX) + 'px';
-            activeNote.style.top = (e.clientY - offsetY) + 'px';
-
-            // Redraw the lines while dragging
-            drawLines();
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (activeNote) activeNote.style.zIndex = 2; // Reset z-index
-            activeNote = null;
-        });
-
-        // Logic to draw a line between Node 1 and Node 2
-        function drawLines() {
-            const node1 = document.getElementById('node1');
-            const node2 = document.getElementById('node2');
-            const line = document.getElementById('line1');
-
-            const rect1 = node1.getBoundingClientRect();
-            const rect2 = node2.getBoundingClientRect();
-
-            // Calculate center points of the sticky notes
-            const n1CenterX = rect1.left + (rect1.width / 2);
-            const n1CenterY = rect1.top + (rect1.height / 2);
-            
-            const n2CenterX = rect2.left + (rect2.width / 2);
-            const n2CenterY = rect2.top + (rect2.height / 2);
-
-            // Update the SVG line coordinates
-            line.setAttribute('x1', n1CenterX);
-            line.setAttribute('y1', n1CenterY);
-            line.setAttribute('x2', n2CenterX);
-            line.setAttribute('y2', n2CenterY);
-        }
-
-        // Draw lines on initial load
-        drawLines();
-    </script>
 
 </body>
 </html>
