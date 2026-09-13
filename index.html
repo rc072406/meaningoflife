@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Meaning of Life - Static Map</title>
+    <title>The Meaning of Life - Expanded Map</title>
     
-
+  
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,800;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
 
     <style>
-       
+        /* Base Setup */
         body {
             margin: 0;
             padding: 40px 20px;
-            background-color: #f0ece1; 
+            background-color: #f0ece1;
             display: flex;
             justify-content: center;
         }
 
-    
         .board {
             position: relative;
-            width: 1200px;
-            height: 1100px;
+            width: 1300px;
+            height: 1200px;
             background: #fdfbf7;
             border-radius: 12px;
             box-shadow: inset 0 0 40px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.1);
@@ -42,18 +41,18 @@
         }
         .strings line {
             stroke: #a8a397;
-            stroke-width: 2.5;
-            stroke-dasharray: 6, 6;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
         }
 
         /* --- THE STICKY NOTES (Reenie Beanie) --- */
         .sticky-note {
             position: absolute;
-            width: 220px;
-            height: 220px;
+            width: 160px;
+            height: 160px;
             background: #feff9c;
             box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
             z-index: 2;
             display: flex;
@@ -61,23 +60,27 @@
             justify-content: center;
             text-align: center;
             font-family: 'Reenie Beanie', cursive;
-            font-size: 28px;
+            font-size: 24px;
             line-height: 1.1;
             color: #111;
         }
 
-        /* Color Variations & Rotations for Stickies */
-        .sticky-note.pink { background: #ffcbf2; transform: rotate(3deg); }
-        .sticky-note.blue { background: #bdf2ff; transform: rotate(-2deg); }
-        .sticky-note.green { background: #d7ffc4; transform: rotate(1deg); }
-        .sticky-note.orange { background: #ffe4b5; transform: rotate(-3deg); }
-        .sticky-note.center {
+        /* Color Variations & Rotations */
+        .pink { background: #ffcbf2; transform: rotate(3deg); }
+        .blue { background: #bdf2ff; transform: rotate(-2deg); }
+        .green { background: #d7ffc4; transform: rotate(1deg); }
+        .orange { background: #ffe4b5; transform: rotate(-3deg); }
+        .purple { background: #e6cfff; transform: rotate(4deg); }
+        
+        .center-note {
             background: #ff6b6b;
             color: white;
-            transform: rotate(0deg) scale(1.1);
-            font-size: 34px;
+            width: 240px;
+            height: 240px;
+            transform: rotate(0deg);
+            font-size: 36px;
             box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-            z-index: 3; /* Keep center on top */
+            z-index: 3;
         }
 
         /* --- THE EXPLANATIONS (Inter) --- */
@@ -85,13 +88,13 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.95);
             border-left: 4px solid #333;
-            padding: 15px 20px;
-            width: 280px;
+            padding: 12px 16px;
+            width: 240px;
             z-index: 3;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 13px;
+            line-height: 1.5;
             color: #222;
         }
         .explanation strong {
@@ -99,8 +102,8 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 5px;
-            font-size: 12px;
+            margin-bottom: 4px;
+            font-size: 11px;
             color: #555;
         }
 
@@ -112,12 +115,11 @@
             transform: translateX(-50%) rotate(-1deg);
             background: #fff;
             border: 1px solid #ddd;
-            width: 320px;
-            height: auto;
+            width: 380px;
             padding: 20px;
             text-align: center;
             font-family: 'Reenie Beanie', cursive;
-            font-size: 36px;
+            font-size: 32px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             z-index: 4;
             display: flex;
@@ -126,8 +128,8 @@
             gap: 15px;
         }
         .heart-icon {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             fill: #ff4757;
         }
     </style>
@@ -136,87 +138,114 @@
 
     <div class="board">
 
-        <!-- SVG Strings Connecting the Nodes to the Center (Center is at 600, 500) -->
+        <!-- Center point is at 650, 550 -->
         <svg class="strings">
-            <!-- To Top Left (History) -->
-            <line x1="600" y1="500" x2="250" y2="200" />
-            <!-- To Mid Left (Psychology) -->
-            <line x1="600" y1="500" x2="180" y2="480" />
-            <!-- To Bottom Left (Chemistry/Physics) -->
-            <line x1="600" y1="500" x2="280" y2="760" />
-            <!-- To Top Right (Lit/Art) -->
-            <line x1="600" y1="500" x2="950" y2="200" />
-            <!-- To Mid Right (Music Theory) -->
-            <line x1="600" y1="500" x2="1020" y2="480" />
-            <!-- To Bottom Right (Math/Stats/Coding) -->
-            <line x1="600" y1="500" x2="920" y2="760" />
+            <!-- Humanities/Arts Left Side -->
+            <line x1="650" y1="550" x2="200" y2="150" /> <!-- History -->
+            <line x1="650" y1="550" x2="120" y2="350" /> <!-- Literature/Poetry -->
+            <line x1="650" y1="550" x2="120" y2="550" /> <!-- Art -->
+            <line x1="650" y1="550" x2="200" y2="750" /> <!-- Philosophy -->
+            <line x1="650" y1="550" x2="350" y2="900" /> <!-- Sociology -->
+            
+            <!-- Human Behavior / Biology Top -->
+            <line x1="650" y1="550" x2="450" y2="100" /> <!-- Psychology -->
+            <line x1="650" y1="550" x2="700" y2="80" />  <!-- Evolutionary Traits -->
+            
+            <!-- STEM Right Side -->
+            <line x1="650" y1="550" x2="1100" y2="200" /> <!-- Chemistry -->
+            <line x1="650" y1="550" x2="1150" y2="400" /> <!-- Physics -->
+            <line x1="650" y1="550" x2="1150" y2="600" /> <!-- Mathematics -->
+            <line x1="650" y1="550" x2="1080" y2="800" /> <!-- Statistics -->
+            <line x1="650" y1="550" x2="850" y2="900" />  <!-- Tech/Coding -->
+
+            <!-- Music Theory -->
+            <line x1="650" y1="550" x2="900" y2="150" />
         </svg>
 
-        <!-- ================= STICKY NOTES (The Disciplines) ================= -->
+        <!-- ================= STICKY NOTES ================= -->
         
-        <div class="sticky-note center" style="top: 390px; left: 490px;">
+        <!-- Center -->
+        <div class="sticky-note center-note" style="top: 430px; left: 530px;">
             INTERTEXTUALITY<br>
-            <span style="font-size: 20px;">There is only one story.</span>
+            <span style="font-size: 22px;">There is only one story.</span>
         </div>
 
-        <div class="sticky-note pink" style="top: 90px; left: 140px;">
+        <!-- Left Side (Humanities/Arts) -->
+        <div class="sticky-note pink" style="top: 70px; left: 120px;">
             History<br>
-            <span style="font-size: 20px;">Connections & changes over time. (Why?)</span>
+            <span style="font-size: 16px;">Connections & changes over time</span>
+        </div>
+        <div class="sticky-note orange" style="top: 270px; left: 40px;">
+            Literature & Poetry<br>
+            <span style="font-size: 16px;">Story of despair or elation</span>
+        </div>
+        <div class="sticky-note blue" style="top: 470px; left: 40px;">
+            Art
+        </div>
+        <div class="sticky-note green" style="top: 670px; left: 120px;">
+            Philosophy
+        </div>
+        <div class="sticky-note purple" style="top: 820px; left: 270px;">
+            Sociology
         </div>
 
-        <div class="sticky-note blue" style="top: 370px; left: 70px;">
-            Psychology,<br>Sociology & Philosophy<br>
-            <span style="font-size: 20px;">Human behavior & evolutionary traits.</span>
+        <!-- Top (Human Behavior) -->
+        <div class="sticky-note blue" style="top: 40px; left: 370px;">
+            Psychology<br>
+            <span style="font-size: 16px;">Human behavior</span>
+        </div>
+        <div class="sticky-note green" style="top: 20px; left: 620px;">
+            Evolutionary Traits
         </div>
 
-        <div class="sticky-note green" style="top: 650px; left: 170px;">
-            Chemistry & Physics<br>
-            <span style="font-size: 20px;">Neurochemicals, neuropeptides & the rules of reality.</span>
+        <!-- Right Side (STEM) -->
+        <div class="sticky-note pink" style="top: 120px; left: 1020px;">
+            Chemistry<br>
+            <span style="font-size: 16px;">Neurochemicals & Molecules</span>
+        </div>
+        <div class="sticky-note orange" style="top: 320px; left: 1070px;">
+            Physics
+        </div>
+        <div class="sticky-note purple" style="top: 520px; left: 1070px;">
+            Mathematics<br>
+            <span style="font-size: 16px;">Infinity & Calculus</span>
+        </div>
+        <div class="sticky-note blue" style="top: 720px; left: 1000px;">
+            Statistics<br>
+            <span style="font-size: 16px;">Gather evidence / answer questions</span>
+        </div>
+        <div class="sticky-note green" style="top: 820px; left: 770px;">
+            Tech & Coding<br>
+            <span style="font-size: 16px;">Computer Science</span>
         </div>
 
-        <div class="sticky-note orange" style="top: 90px; left: 840px;">
-            Literature, Poetry & Art<br>
-            <span style="font-size: 20px;">Documenting the human experience.</span>
-        </div>
-
-        <div class="sticky-note blue" style="top: 370px; left: 910px;">
-            Music Theory<br>
-            <span style="font-size: 20px;">The architecture of sound.</span>
-        </div>
-
-        <div class="sticky-note pink" style="top: 650px; left: 810px;">
-            Mathematics,<br>Statistics & Coding<br>
-            <span style="font-size: 20px;">Infinity. Gathering evidence. Innovation!</span>
+        <!-- Top Right -->
+        <div class="sticky-note pink" style="top: 70px; left: 820px;">
+            Music Theory
         </div>
 
 
-        <!-- ================= EXPLANATIONS (The Connections in Inter font) ================= -->
+        <!-- ================= EXPLANATIONS (Inter) ================= -->
 
-        <div class="explanation" style="top: 40px; left: 450px; width: 300px; text-align: center; border-left: none; border-top: 4px solid #333;">
-            <strong>The Cycle</strong>
-            After we answer a question, we create new ones. What do you choose? What question do you have? You can make history. The cycle repeats itself.
-        </div>
-
-        <div class="explanation" style="top: 220px; left: 380px; width: 440px; text-align: center; border-left: none; border-bottom: 4px solid #333;">
+        <div class="explanation" style="top: 190px; left: 320px; border-left: none; border-bottom: 4px solid #333; text-align: right;">
             <strong>Forms of Storytelling</strong>
-            All of these are forms of storytelling. Calculus tells the story of moving phenomena just as poetry tells the story of despair or elation.
+            Calculus tells the story of moving phenomena exactly how poetry tells the story of human emotion.
         </div>
 
-        <div class="explanation" style="top: 480px; left: 240px; width: 220px;">
+        <div class="explanation" style="top: 300px; left: 750px; border-left: none; border-top: 4px solid #333;">
             <strong>Seeking Patterns</strong>
-            We are naturally seekers of patterns. The chain of human existence runs straight from history down to neurochemicals and physics.
+            In music theory, detecting a pedal note that grounds a song is exactly the same as a chemist detecting a behavioral property in a molecule.
         </div>
 
-        <div class="explanation" style="top: 600px; left: 730px;">
+        <div class="explanation" style="top: 670px; left: 750px;">
             <strong>Language & Logic</strong>
-            Like how Dickens stole from Dante, there is no difference between figuring out a double negative in a sentence and a double negative in an equation.
+            Like Dickens stealing from Dante, there is no difference between comprehending a double negative in a sentence and in an equation.
         </div>
 
-        <div class="explanation" style="top: 800px; left: 460px;">
-            <strong>Music & Science</strong>
-            Detecting a pedal note that makes a beautiful song is intellectually identical to a chemist detecting a property in a molecule that dictates its behavior.
+        <div class="explanation" style="top: 700px; left: 330px; border-left: none; border-right: 4px solid #333; text-align: right;">
+            <strong>The Cycle</strong>
+            After we answer a question, we create new ones. What question do you have? You can make history. The cycle repeats.
         </div>
-
 
         <!-- ================= FINALE NOTE ================= -->
         
