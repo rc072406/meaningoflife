@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Meaning of Life - Map</title>
+    
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Reenie+Beanie&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Setup */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f4f4f4; 
+        }
+
+      
+        #connections-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* Lets you click through the lines to the background */
+        }
+
+        /* The lines connecting the notes */
+        .connection-line {
+            stroke: #333;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5; /* Creates a dashed line */
+        }
+
+        /* --- THE STICKY NOTES (Reenie Beanie) --- */
+        .sticky-note {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: #feff9c; /* Classic sticky note yellow */
+            box-shadow: 3px 5px 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 2;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            
+            /* Font styling */
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 28px;
+            line-height: 1.2;
+            color: #111;
+
+            /* Slight rotation for realism */
+            transform: rotate(-2deg);
+            transition: transform 0.1s;
+        }
+
+        .sticky-note:nth-child(even) {
+            transform: rotate(3deg);
+            background: #ffcbf2; /* Pink note for variety */
+        }
+
+        .sticky-note:active {
+            cursor: grabbing;
+            transform: scale(1.05); /* Pops up slightly when dragged */
+            z-index: 10;
+        }
+
+        /* --- THE EXPLANATIONS (Inter) --- */
+        .explanation {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            max-width: 250px;
+            z-index: 3;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            
+            /* Font styling */
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG for Drawing Lines -->
+    <svg id="connections-canvas">
+        <line id="line1" class="connection-line" x1="0" y1="0" x2="0" y2="0" />
+    </svg>
+
+    <!-- Sticky Notes -->
+    <div class="sticky-note" id="node1" style="top: 100px; left: 150px;">
+        Music Theory & Chemistry
+    </div>
+
+    <div class="sticky-note" id="node2" style="top: 300px; left: 550px;">
+        Mathematics & Language
+    </div>
+
+    <!-- Explanation Box placed between them -->
+    <div class="explanation" style="top: 220px; left: 330px;">
+        <strong>The Pattern:</strong> Detecting a pedal note in a song is the same as detecting a behavioral property in a molecule. Double negatives function the exact same way in English and Algebra.
+    </div>
+
+    <script>
+        // Simple Drag and Drop Logic
+        const notes = document.querySelectorAll('.sticky-note');
+        let activeNote = null;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        notes.forEach(note => {
+            note.addEventListener('mousedown', (e) => {
+                activeNote = note;
+                offsetX = e.clientX - note.getBoundingClientRect().left;
+                offsetY = e.clientY - note.getBoundingClientRect().top;
+                note.style.zIndex = 100; // Bring to front
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!activeNote) return;
+            
+            // Move the note
+            activeNote.style.left = (e.clientX - offsetX) + 'px';
+            activeNote.style.top = (e.clientY - offsetY) + 'px';
+
+            // Redraw the lines while dragging
+            drawLines();
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (activeNote) activeNote.style.zIndex = 2; // Reset z-index
+            activeNote = null;
+        });
+
+        // Logic to draw a line between Node 1 and Node 2
+        function drawLines() {
+            const node1 = document.getElementById('node1');
+            const node2 = document.getElementById('node2');
+            const line = document.getElementById('line1');
+
+            const rect1 = node1.getBoundingClientRect();
+            const rect2 = node2.getBoundingClientRect();
+
+            // Calculate center points of the sticky notes
+            const n1CenterX = rect1.left + (rect1.width / 2);
+            const n1CenterY = rect1.top + (rect1.height / 2);
+            
+            const n2CenterX = rect2.left + (rect2.width / 2);
+            const n2CenterY = rect2.top + (rect2.height / 2);
+
+            // Update the SVG line coordinates
+            line.setAttribute('x1', n1CenterX);
+            line.setAttribute('y1', n1CenterY);
+            line.setAttribute('x2', n2CenterX);
+            line.setAttribute('y2', n2CenterY);
+        }
+
+        // Draw lines on initial load
+        drawLines();
+    </script>
+
+</body>
+</html>
