@@ -132,173 +132,131 @@
             height: 30px;
             fill: #ff4757;
         }
-
-        /* ================= MOBILE RESPONSIVENESS ================= */
-        
-        /* Create a viewport wrapper so mobile users can swipe around the map */
-        .board-wrapper {
-            width: 100%;
-            max-width: 100vw;
-            overflow: auto; /* Enables scrolling/panning */
-            -webkit-overflow-scrolling: touch; /* Smooth swiping on iPhones */
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Adjustments for iPads and Tablets */
-        @media screen and (max-width: 1350px) {
-            body {
-                padding: 20px 0; /* Minimize empty space on edges */
-                justify-content: flex-start;
-            }
-            .board {
-                /* Shrink the board down to 80% size to fit better on tablets */
-                transform: scale(0.8);
-                transform-origin: top center;
-                margin-bottom: -240px; /* Removes empty space created by shrinking */
-            }
-        }
-
-        /* Adjustments for iPhones and small phones */
-        @media screen and (max-width: 768px) {
-            .board-wrapper {
-                justify-content: flex-start; /* Aligns map to top-left so users can pan right and down */
-                padding: 10px;
-            }
-            .board {
-                /* Keep it slightly shrunk, but let users pan around to read it */
-                transform: scale(0.65); 
-                transform-origin: top left;
-                margin-bottom: -420px;
-                margin-right: -450px; /* Fixes right-side cutoffs when panning */
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div class="board-wrapper">
-        <div class="board">
+    <div class="board">
 
-            <!-- Center point is at 650, 550 -->
-            <svg class="strings">
-                <!-- Humanities/Arts Left Side -->
-                <line x1="650" y1="550" x2="200" y2="150" /> <!-- History -->
-                <line x1="650" y1="550" x2="120" y2="350" /> <!-- Literature/Poetry -->
-                <line x1="650" y1="550" x2="120" y2="550" /> <!-- Art -->
-                <line x1="650" y1="550" x2="200" y2="750" /> <!-- Philosophy -->
-                <line x1="650" y1="550" x2="350" y2="900" /> <!-- Sociology -->
-                
-                <!-- Human Behavior / Biology Top -->
-                <line x1="650" y1="550" x2="450" y2="100" /> <!-- Psychology -->
-                <line x1="650" y1="550" x2="700" y2="80" />  <!-- Evolutionary Traits -->
-                
-                <!-- STEM Right Side -->
-                <line x1="650" y1="550" x2="1100" y2="200" /> <!-- Chemistry -->
-                <line x1="650" y1="550" x2="1150" y2="400" /> <!-- Physics -->
-                <line x1="650" y1="550" x2="1150" y2="600" /> <!-- Mathematics -->
-                <line x1="650" y1="550" x2="1080" y2="800" /> <!-- Statistics -->
-                <line x1="650" y1="550" x2="850" y2="900" />  <!-- Tech/Coding -->
-
-                <!-- Music Theory -->
-                <line x1="650" y1="550" x2="900" y2="150" />
-            </svg>
-
-            <!-- ================= STICKY NOTES ================= -->
+        <!-- Center point is at 650, 550 -->
+        <svg class="strings">
+            <!-- Humanities/Arts Left Side -->
+            <line x1="650" y1="550" x2="200" y2="150" /> <!-- History -->
+            <line x1="650" y1="550" x2="120" y2="350" /> <!-- Literature/Poetry -->
+            <line x1="650" y1="550" x2="120" y2="550" /> <!-- Art -->
+            <line x1="650" y1="550" x2="200" y2="750" /> <!-- Philosophy -->
+            <line x1="650" y1="550" x2="350" y2="900" /> <!-- Sociology -->
             
-            <!-- Center -->
-            <div class="sticky-note center-note" style="top: 430px; left: 530px;">
-                INTERTEXTUALITY<br>
-                <span style="font-size: 22px;">There is only one story.</span>
-            </div>
-
-            <!-- Left Side (Humanities/Arts) -->
-            <div class="sticky-note pink" style="top: 70px; left: 120px;">
-                History<br>
-                <span style="font-size: 16px;">Connections & changes over time</span>
-            </div>
-            <div class="sticky-note orange" style="top: 270px; left: 40px;">
-                Literature & Poetry<br>
+            <!-- Human Behavior / Biology Top -->
+            <line x1="650" y1="550" x2="450" y2="100" /> <!-- Psychology -->
+            <line x1="650" y1="550" x2="700" y2="80" />  <!-- Evolutionary Traits -->
             
-            </div>
-            <div class="sticky-note blue" style="top: 470px; left: 40px;">
-                Art
-            </div>
-            <div class="sticky-note green" style="top: 670px; left: 120px;">
-                Philosophy
-            </div>
-            <div class="sticky-note purple" style="top: 820px; left: 270px;">
-                Sociology
-            </div>
+            <!-- STEM Right Side -->
+            <line x1="650" y1="550" x2="1100" y2="200" /> <!-- Chemistry -->
+            <line x1="650" y1="550" x2="1150" y2="400" /> <!-- Physics -->
+            <line x1="650" y1="550" x2="1150" y2="600" /> <!-- Mathematics -->
+            <line x1="650" y1="550" x2="1080" y2="800" /> <!-- Statistics -->
+            <line x1="650" y1="550" x2="850" y2="900" />  <!-- Tech/Coding -->
 
-            <div class="sticky-note blue" style="top: 40px; left: 370px;">
-                Psychology & Neuroscience <br>
-                <span style="font-size: 16px;">Human behavior</span>
-            </div>
-            <div class="sticky-note green" style="top: 20px; left: 620px;">
-            Biology
-            </div>
+            <!-- Music Theory -->
+            <line x1="650" y1="550" x2="900" y2="150" />
+        </svg>
 
-            <!-- Right Side (STEM) -->
-            <div class="sticky-note pink" style="top: 120px; left: 1020px;">
-                Chemistry<br>
-            
-            </div>
-            <div class="sticky-note orange" style="top: 320px; left: 1070px;">
-                Physics
-            </div>
-            <div class="sticky-note purple" style="top: 520px; left: 1070px;">
-                Mathematics<br>
-                <span style="font-size: 16px;">To Infinity and Beyond!</span>
-            </div>
-            <div class="sticky-note blue" style="top: 720px; left: 1000px;">
-                Statistics<br>
-                <span style="font-size: 16px;">Gather evidence / answer questions</span>
-            </div>
-            <div class="sticky-note green" style="top: 820px; left: 770px;">
-                Tech & Coding<br>
-                <span style="font-size: 16px;">Computer Science</span>
-            </div>
-
-            <!-- Top Right -->
-            <div class="sticky-note pink" style="top: 70px; left: 820px;">
-                Music Theory
-            </div>
-
-
-            <!-- ================= EXPLANATIONS (Inter) ================= -->
-
-            <div class="explanation" style="top: 190px; left: 320px; border-left: none; border-bottom: 4px solid #333; text-align: right;">
-                <strong>Forms of Storytelling</strong>
-                Calculus tells the story of moving phenomena exactly how poetry tells the story of human emotion.
-            </div>
-
-            <div class="explanation" style="top: 300px; left: 750px; border-left: none; border-top: 4px solid #333;">
-                <strong>Seeking Patterns</strong>
-                In music theory, detecting a pedal note that grounds a song is exactly the same as a chemist detecting a behavioral property in a molecule.
-            </div>
-
-            <div class="explanation" style="top: 670px; left: 750px;">
-                <strong>Language & Logic</strong>
-                Like Dickens stealing from Dante, there is no difference between comprehending a double negative in a sentence and in an equation.
-            </div>
-
-            <div class="explanation" style="top: 700px; left: 330px; border-left: none; border-right: 4px solid #333; text-align: right;">
-                <strong>The Cycle</strong>
-                After we answer a question, we create new ones. What question do you have? You can make history. The cycle repeats.
-            </div>
-
-            <!-- ================= FINALE NOTE ================= -->
-            
-            <div class="finale-note">
-                What was I made for?<br>
-                Anything and Everything.
-                <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-            </div>
-
+        <!-- ================= STICKY NOTES ================= -->
+        
+        <!-- Center -->
+        <div class="sticky-note center-note" style="top: 430px; left: 530px;">
+            INTERTEXTUALITY<br>
+            <span style="font-size: 22px;">There is only one story.</span>
         </div>
+
+        <!-- Left Side (Humanities/Arts) -->
+        <div class="sticky-note pink" style="top: 70px; left: 120px;">
+            History<br>
+            <span style="font-size: 16px;">Connections & changes over time</span>
+        </div>
+        <div class="sticky-note orange" style="top: 270px; left: 40px;">
+            Literature & Poetry<br>
+        
+        </div>
+        <div class="sticky-note blue" style="top: 470px; left: 40px;">
+            Art
+        </div>
+        <div class="sticky-note green" style="top: 670px; left: 120px;">
+            Philosophy
+        </div>
+        <div class="sticky-note purple" style="top: 820px; left: 270px;">
+            Sociology
+        </div>
+
+ 
+        <div class="sticky-note blue" style="top: 40px; left: 370px;">
+            Psychology & Neuroscience <br>
+            <span style="font-size: 16px;">Human behavior</span>
+        </div>
+        <div class="sticky-note green" style="top: 20px; left: 620px;">
+        Biology
+        </div>
+
+        <!-- Right Side (STEM) -->
+        <div class="sticky-note pink" style="top: 120px; left: 1020px;">
+            Chemistry<br>
+        
+        </div>
+        <div class="sticky-note orange" style="top: 320px; left: 1070px;">
+            Physics
+        </div>
+        <div class="sticky-note purple" style="top: 520px; left: 1070px;">
+            Mathematics<br>
+            <span style="font-size: 16px;">To Infinity and Beyond!</span>
+        </div>
+        <div class="sticky-note blue" style="top: 720px; left: 1000px;">
+            Statistics<br>
+            <span style="font-size: 16px;">Gather evidence / answer questions</span>
+        </div>
+        <div class="sticky-note green" style="top: 820px; left: 770px;">
+            Tech & Coding<br>
+            <span style="font-size: 16px;">Computer Science</span>
+        </div>
+
+        <!-- Top Right -->
+        <div class="sticky-note pink" style="top: 70px; left: 820px;">
+            Music Theory
+        </div>
+
+
+        <!-- ================= EXPLANATIONS (Inter) ================= -->
+
+        <div class="explanation" style="top: 190px; left: 320px; border-left: none; border-bottom: 4px solid #333; text-align: right;">
+            <strong>Forms of Storytelling</strong>
+            Calculus tells the story of moving phenomena exactly how poetry tells the story of human emotion.
+        </div>
+
+        <div class="explanation" style="top: 300px; left: 750px; border-left: none; border-top: 4px solid #333;">
+            <strong>Seeking Patterns</strong>
+            In music theory, detecting a pedal note that grounds a song is exactly the same as a chemist detecting a behavioral property in a molecule.
+        </div>
+
+        <div class="explanation" style="top: 670px; left: 750px;">
+            <strong>Language & Logic</strong>
+            Like Dickens retelling The Divine Comedy through A Christmas Carol, there is no difference between comprehending a double negative in a sentence and in an equation.
+        </div>
+
+        <div class="explanation" style="top: 700px; left: 330px; border-left: none; border-right: 4px solid #333; text-align: right;">
+            <strong>The Cycle</strong>
+            After we answer a question, we create new ones. What question do you have? You can make history. The cycle repeats.
+        </div>
+
+        <!-- ================= FINALE NOTE ================= -->
+        
+        <div class="finale-note">
+            What was I made for?<br>
+            Anything and Everything.
+            <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+
     </div>
 
 </body>
